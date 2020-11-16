@@ -503,4 +503,4 @@ def _test4():
     obj.cross_section_selector() 
 
 if __name__ == '__main__':
-    _test4()
+    _test()
