@@ -2,14 +2,21 @@
 @author: Max Felius
 
 ## File structure
-- Kinematic_Model_Langragian.ipynb (original nb that shows how the Langrangian simulator works)
-- Kinematic_Model_Main.py (UNFINISHED, script for using the package (Kinematic_Model))
+- Kinematic_Model_Lagrangian.ipynb (original nb that shows how the Langrangian simulator works)
+- Kinematic_Model_Lagrangian_Visualization.ipynb
+- Kinematic_Model_Lagrangian_Visualization.py
+- Kinematic_Model_Visualization_TKinter.py
 
 ### Package (Kinematic_Model)
-- Time_Vector.py (FINSIHED, Returns the time function to be used)
-- Influence_Functions.py (FINISHED, returns the amount of influence on each point using the specified function)
-- Sinkhole_Object (UNFINISHED, Instance class for sinkhole)
-- Visualization (UNFINISHED, script for producing the panable script)
+- Time_Vector.py (Done)
+- Influence_Functions.py (Done)
+- Sinkhole_Object (Done)
+- Visualization (Done)
 
-## Roadmap 
-- Figure out how this works (DONE)
+#### Visualization Methods
+- interactive_figure()
+- interactive_figure_los(theta,alpha)
+- cross_section_selector() 
+
+## TODO:
+- Show parameters used in title of plots
