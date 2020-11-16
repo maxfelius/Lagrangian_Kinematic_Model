@@ -91,7 +91,6 @@ class visualization:
             ax.set_title(f'Time step: {num}. Mechanism: {self.mechanism}')
             fig.canvas.draw_idle()
 
-
         stime.on_changed(update)
 
         plt.show()
@@ -170,32 +169,111 @@ class visualization:
 
         plt.show() 
 
+    def cross_section_selector(self):
+        '''
+        Method for making a cross section of the sinkhole
+        '''
+        if self.mechanism.lower() == 'suffosion':
+            x_new, y_new, z_new = self.obj.suffosion(self.t,self.time_type)
+        elif self.mechanism.lower() == 'stoping':
+            x_new, y_new, z_new = self.obj.stoping(self.t,self.time_type)
 
-    # def show_figure(self,num):
-    #     '''
-    #     Method to show one figure. >>>Not implemented yet<<<
-    #     '''
-    #     number = num
+        fig, ax = plt.subplots(figsize = (10, 7))
+        plt.subplots_adjust(bottom=0.25)
+        ax.set_xlabel('Distance East [m]')
+        ax.set_ylabel('Distance North [m]')
+        ax.set_title(f'Time step: {0}. Mechanism: {self.mechanism}. Select a Time Step to start the selection')
 
-    #     x_new, y_new, z_new = self.obj.suffosion(self.t,self.time_type)
-    #     plot_box = create_cavity_position()
+        # Creating initial plot
+        number = 0
+        p = ax.scatter(x_new[:,number] , y_new[:,number],c=z_new[:,-1])
+        fig.colorbar(p)
 
-    #     zmax = min(plot_box[:,0,2])
+        ax.margins(x=0)
 
-    #     fig = plt.figure(figsize = (10, 7))
-    #     ax = plt.axes(projection ="3d")
+        axcolor = 'lightgoldenrodyellow'
+        axtime = plt.axes([0.25, 0.1, 0.65, 0.03], facecolor=axcolor)
 
-    #     # Creating plot
-    #     ax.scatter3D(x_new[:,number] , y_new[:,number] , z_new[:,number] , c=z_new[:,-1])
-    #     ax.plot3D(plot_box[:,number,0],plot_box[:,number,1],plot_box[:,number,2])
+        stime = Slider(axtime, 'Time', 0, len(self.t)-1, valinit=0, valstep=1)
 
-    #     plt.title("simple 3D scatter plot")
-    #     ax.set_xlabel('x-direction [-]')
-    #     ax.set_ylabel('y-direction [-]')
-    #     ax.set_zlabel('z-direction [-]')
-    #     ax.set_zlim3d(zmax,0)
-        # plt.show()
+        def update(val):
+            ax.clear()
+            num = int(np.round(val))
 
+            #create new plot
+            ax.scatter(x_new[:,num] , y_new[:,num], c=z_new[:,-1])
+            ax.set_xlabel('Distance East [m]')
+            ax.set_ylabel('Distance North [m]')
+            ax.set_title(f'Time step: {num}. Mechanism: {self.mechanism}')
+            points = plt.ginput(n=2,timeout=0,show_clicks=True,mouse_stop=2)
+            fig.canvas.draw_idle()
+
+            x = [] 
+            y = []
+            for pt in points: 
+                x.append(pt[0])
+                y.append(pt[1])
+
+            # plot your selection
+            self.plot_cross_section(x,y,num,x_new[:,num],y_new[:,num],z_new[:,num])
+
+        stime.on_changed(update)
+
+        plt.show()
+
+    def plot_cross_section(self,x,y,num,x_new,y_new,z_new):
+        '''
+        Method for plotting the cross section results
+
+        Input:
+        :type x: list[float]
+        :type y: list[float]
+        :type num: int
+        :type x_new: list[float]
+        :type y_new: list[float]
+        :type z_new: list[float]
+        '''
+        buffer = 2 #[m]
+
+        #extract the points
+        a = np.array([x[0],y[0]])
+        b = np.array([x[1],y[1]])
+        p = np.array([x_new,y_new])
+        Np = p[0].shape[0]
+        
+        ab = b - a
+        abdist2 = np.dot(ab,ab)
+        
+        assert abdist2 != 0, 'The two points specifying the line are the same.'
+
+        ap = np.array([p[0]-a[0],p[1]-a[1]])
+        t = (ab @ ap)/abdist2
+        p2 = (np.tile(a,[Np,1]) + (t.reshape((len(t),1)) @ ab.reshape((2,1)).T)).T
+        dist = np.sqrt(abs(p[0]-p2[0])**2 + abs(p[1]-p2[1])**2)
+        
+        index1 = np.where(t < 0)
+        index2 = np.where(t > 1)
+        index3 = np.where(dist > buffer/2)
+        
+        index = np.concatenate((index1[0],index2[0],index3[0]))
+        
+        x_subset = np.delete(x_new,index)
+        y_subset = np.delete(y_new,index)
+        z_subset = np.delete(z_new,index)
+        t = np.delete(t,index)
+        xNew = t*np.sqrt(abdist2)  
+
+        #plot the points
+        fig, ax = plt.subplots(figsize = (10,7))
+        ax = plt.axes(projection ="3d")
+        ax.set_xlabel('Distance East [m]')
+        ax.set_ylabel('Distance North [m]')
+        ax.set_zlabel('Distance Up [m]')
+        ax.set_title('Time step {}. Coordinates ({:.2f},{:.2f}) and ({:.2f},{:.2f})'.format(num,x[0],y[0],x[1],y[1]))
+
+        p = ax.scatter3D(x_subset , y_subset ,z_subset , c=z_subset)
+        fig.colorbar(p)
+        plt.show()
 
     def stoping_cavity(self,t_out,x0,y0,w,M,H_start,H_end,draw):
         '''
@@ -399,5 +477,30 @@ def _test3():
 
     obj.interactive_figure_los(theta,alpha) 
 
+def _test4():
+    '''
+    Testing the cross sectional tool
+    '''
+    x0 = 25
+    y0 = 25
+    H = 10
+    H_min = 3
+    M = 2
+    w = 10
+    draw = 35
+    nx = 30
+    x_range = np.linspace(15,35,nx)
+    y_range = np.linspace(15,35,nx)
+
+    t = np.arange(0,10,1)
+    time_type = 'poly'
+
+    obj = visualization(x0,y0,H,H_min,M,w,draw,x_range,y_range,t,time_type)
+
+    obj.mechanism = 'stoping'
+    obj.obj.kz_type = 'Gaussian'
+
+    obj.cross_section_selector() 
+
 if __name__ == '__main__':
-    _test()
+    _test4()
