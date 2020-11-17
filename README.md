@@ -1,6 +1,9 @@
 # 3D Kinematic Model Lagrangian Simulator 
 @author: Max Felius
 
+Use requirements.txt to install all the necessary packages
+python3 -m pip install -r requirements.txt
+
 ## File structure
 - Kinematic_Model_Lagrangian.ipynb (original nb that shows how the Langrangian simulator works)
 - Kinematic_Model_Lagrangian_Visualization.ipynb
@@ -20,3 +23,4 @@
 
 ## TODO:
 - Show parameters used in title of plots
+- Create requirements file

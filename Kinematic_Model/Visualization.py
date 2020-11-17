@@ -10,7 +10,7 @@ import mpld3
 import sys
 
 #personal imports
-import Sinkhole_Object as SO
+import Kinematic_Model.Sinkhole_Object as SO
 
 class visualization:
     '''

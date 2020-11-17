@@ -30,11 +30,12 @@ from IPython import get_ipython
 # %%
 #imports
 import numpy as np
-import sys
+import sys, os
 from decouple import config #package to obscure my path
 
 #import package
-sys.path.extend([config('package')])
+#sys.path.extend([config('package')])
+sys.path.extend(os.path.join(os.getcwd(),'Kinematic_Model'))
 
 #import the visualization package
 from Kinematic_Model.Visualization import visualization

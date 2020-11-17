@@ -19,8 +19,8 @@ from mpl_toolkits import mplot3d
 import mpld3
 
 #imports package
-import Time_Vector as tv
-import Influence_Functions as infl
+import Kinematic_Model.Time_Vector as tv
+import Kinematic_Model.Influence_Functions as infl
 
 class sinkhole_function:
     '''
