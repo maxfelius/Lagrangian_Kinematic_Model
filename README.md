@@ -23,4 +23,3 @@ python3 -m pip install -r requirements.txt
 
 ## TODO:
 - Show parameters used in title of plots
-- Create requirements file
