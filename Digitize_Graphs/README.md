@@ -29,19 +29,43 @@
 	- Beyer Influence Function
 		- v: 77.41 m^3/day
 		- R: 491 m
+		- Average Fit: 67.76%
+		- RMSE: 0.003491
 	- Bals Influence Function
 		- v: 0.0003469 m^3/day
 		- R: 298 m
+		- Average Fit: 72.91%
+		- RMSE: 0.002954
 	- Mogi source
-		- Delta V 287.98 m^3/day
+		- Delta V: 287.98 m^3/day
+		- Average Fit: 64.50%
+		- RMSE: 0.034210
 
 - Wink 2019
 	- Gaussian Influence Function
 		- v: 44.77 m^3/day
-		- R: 0 m
+		- R: 178 m
+		- Average Fit: 91.82%
+		- RMSE: 0.005303
 	- Beyer Influence Function
-		- v: 44.77 m^3/day
-		- R: 0 m
+		- v: 35.71 m^3/day
+		- R: 157 m
+		- Average Fit: 87.02%
+		- RMSE: 0.008733
 	- Bals Influence Function
-		- v: 44.77 m^3/day
-		- R: 0 m
+		- v: 0.001653 m^3/day
+		- R: 86.89 m
+		- Average Fit: 86.03%
+		- RMSE: 0.008602
+	- Mogi source
+		- H = 100 m
+		- Delta V: 66.37 m^3/day
+		- Average Fit: 90.49%
+		- RMSE: 0.043296
+
+### Dead Sea
+- Baer 2018 1
+- Baer 2018 2
+- Baer 2018 3
+- Nof 2013
+- Nof 2019
