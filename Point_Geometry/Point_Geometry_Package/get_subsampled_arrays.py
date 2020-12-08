@@ -8,7 +8,7 @@ import numpy as np
 #import packages
 from Point_Geometry_Package.zg import zg_nois
 
-def get_subsampled_arrays(x_sub,y_sub,r,delta_days):
+def get_subsampled_arrays(x_sub,y_sub,r,delta_days,v_wink2016_gaus,R_wink2016_gaus):
     #create row arrays for x,y,z containing every epoch
     x_array = np.array([])
     y_array = np.array([])
