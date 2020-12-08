@@ -18,6 +18,17 @@ from Point_Geometry_Package.case_inverse_kinematic_model import case_inverse_kin
 def simulate_sinkhole_parameter_retrieval(delta_days,x0,y0,max_subs,n_sims,x_unravel,y_unravel,v_model,R_model):
     '''
     '''
+    #check if the folder is present to save the exceptions
+    foldername_start = 'data_point_geometry'
+    i = 1
+    while True:
+        foldername = foldername_start+'_{:02d}'.format(i)
+        if not os.path.exists(foldername):
+            os.mkdir(foldername)
+            break
+        else:
+            i += 1
+    
     number_subs = [x for x in range(1,max_subs)]
     
     #save variables
@@ -51,18 +62,18 @@ def simulate_sinkhole_parameter_retrieval(delta_days,x0,y0,max_subs,n_sims,x_unr
                 #filter out nan values
                 if np.isnan(fit) or fit < 0:
                     fit = 0
-                if np.isnan(cond_number):
-                    cond_number = 1500
+                if np.isnan(cond_number)or cond_number > 15000:
+                    cond_number = 15000
             except:
                 ehat = 0
                 y = 0
                 fit = 0
-                cond_number = 1500
+                cond_number = 15000
                 
                 #save the point geometry and make a figure
                 num_sub = n_sub
                 num_sim = sim_num
-                save_exception(t,x_array,y_array,z_array,num_sub,num_sim)
+                save_exception(t,x_array,y_array,z_array,num_sub,num_sim,foldername)
 
             fit_total_save[sim_num,n_sub-1] = fit
             cond_number_total_save[sim_num,n_sub-1] = cond_number
@@ -70,15 +81,11 @@ def simulate_sinkhole_parameter_retrieval(delta_days,x0,y0,max_subs,n_sims,x_unr
     return fit_total_save, cond_number_total_save, number_subs
 
 
-def save_exception(t,x_array,y_array,z_array,num_sub,num_sim):
+def save_exception(t,x_array,y_array,z_array,num_sub,num_sim,foldername):
     '''
     Save the exception for later investigation
     '''
-    #check if the folder is present
-    foldername = 'data_point_geometry'
-    if not os.path.exists(foldername):
-        os.mkdir(foldername)
-    
+            
     header = ['time','x','y','subsidence']
 
     data = np.array([t,x_array,y_array,z_array]).T
