@@ -23,3 +23,6 @@ python3 -m pip install -r requirements.txt
 
 ## TODO:
 - Show parameters used in title of plots
+
+## Create own Git folder
+https://opensource.com/life/16/8/how-construct-your-own-git-server-part-6
