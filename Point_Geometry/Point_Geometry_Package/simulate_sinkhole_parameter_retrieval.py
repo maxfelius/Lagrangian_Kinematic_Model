@@ -51,7 +51,7 @@ def simulate_sinkhole_parameter_retrieval(delta_days,x0,y0,max_subs,n_sims,x_unr
 
             #initial parameters
             R = 500
-            v = 100
+            v = 1
 
             #catch singular matrices
             try:
