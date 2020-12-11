@@ -44,7 +44,8 @@ def case_inverse_kinematic_model(v,t,R,r,y):
         
         #defining the jacobian matrix
         A1 = t*zg(R,r)
-        A2 = ((2*R**2 + 2*np.pi*r**2)/(R**3))*(v*t)*zg(R,r)
+        A2 = ((2*v*t*np.pi*r**2)/(R**3))*zg(R,r)
+        # A2 = ((2*R**2 + 2*np.pi*r**2)/(R**3))*(v*t)*zg(R,r)
            
         J = np.array([A1,A2]).T
         

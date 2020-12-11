@@ -6,7 +6,7 @@
 import numpy as np
 
 #import packages
-from Point_Geometry_Package.zg import zg_nois
+from Point_Geometry_Package.zg import zg
 
 def get_subsampled_arrays(x_sub,y_sub,r,delta_days,v_wink2016_gaus,R_wink2016_gaus):
     #create row arrays for x,y,z containing every epoch
@@ -21,7 +21,16 @@ def get_subsampled_arrays(x_sub,y_sub,r,delta_days,v_wink2016_gaus,R_wink2016_ga
         n = len(x_sub)
         x_array = np.concatenate((x_array,x_sub))
         y_array = np.concatenate((y_array,y_sub))
-        z_array = np.concatenate((z_array,step*v_wink2016_gaus*zg_nois(R_wink2016_gaus,r)))
+
+        #Subsidence subsamples
+        #Setting the noise level, std of 3 mm
+        mu = 0 
+        sigma = 0.003 #[m]
+        noise = np.random.normal(mu, sigma, len(r))
+
+        z_subsidence = noise*step*v_wink2016_gaus*zg(R_wink2016_gaus,r) #[m]
+
+        z_array = np.concatenate((z_array,z_subsidence))
         t = np.concatenate((t,[delta_days[nitems]]*n))
         r_array = np.concatenate((r_array,r))
         nitems += 1
