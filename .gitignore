@@ -5,3 +5,4 @@ __pycache__
 .env
 Thumbs.db
 data_point_geometry*
+.notes.txt
