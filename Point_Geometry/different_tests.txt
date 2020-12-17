@@ -1,0 +1,11 @@
+# F-test -> ANOVA (https://en.wikipedia.org/wiki/F-test)
+
+
+
+R-squared
+p-value
+Overall Model Test
+Root Mean Square Error
+
+NOTES:
+Variograms
