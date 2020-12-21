@@ -7,3 +7,4 @@ mpld3==0.5.*
 ipython==7.19.*
 jupyter==1.0.*
 tqdm==4.54.*
+tilemapbase==0.4.*
